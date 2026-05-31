@@ -7,382 +7,94 @@
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
   :root {
-    --bg: #0e0e0e;
-    --surface: #161616;
-    --border: #2a2a2a;
-    --accent: #00d4ff;
-    --accent2: #ff6b35;
-    --text: #e8e8e8;
-    --muted: #666;
-    --success: #00c48c;
-    --error: #ff4444;
-    --sold: #ff6b35;
+    --bg: #0e0e0e; --surface: #161616; --border: #2a2a2a;
+    --accent: #00d4ff; --text: #e8e8e8; --muted: #666;
+    --success: #00c48c; --error: #ff4444; --sold: #ff6b35;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'IBM Plex Sans', sans-serif;
-    min-height: 100vh;
-    padding: 40px 24px;
-  }
-
-  header {
-    display: flex;
-    align-items: baseline;
-    gap: 16px;
-    margin-bottom: 48px;
-    border-bottom: 1px solid var(--border);
-    padding-bottom: 24px;
-  }
-
-  header h1 {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: -0.5px;
-    color: var(--accent);
-  }
-
-  header span {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-  }
-
-  .layout {
-    display: grid;
-    grid-template-columns: 420px 1fr;
-    gap: 32px;
-    max-width: 1400px;
-  }
-
-  @media (max-width: 900px) {
-    .layout { grid-template-columns: 1fr; }
-  }
-
-  .panel {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .panel-header {
-    padding: 14px 20px;
-    border-bottom: 1px solid var(--border);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--muted);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .panel-body { padding: 20px; }
-
-  /* Search list */
-  #search-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 20px; }
-
-  .search-item {
-    background: var(--bg);
-    border: 1px solid var(--border);
-    border-radius: 4px;
-    padding: 14px;
-    position: relative;
-    transition: border-color 0.15s;
-  }
-
-  .search-item:hover { border-color: #3a3a3a; }
-
-  .search-item-row {
-    display: flex;
-    gap: 10px;
-    align-items: center;
-    margin-bottom: 10px;
-  }
-
+  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; padding: 32px 24px; }
+  header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
+  header h1 { font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 600; color: var(--accent); }
+  header span { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
+  .layout { display: grid; grid-template-columns: 380px 1fr; gap: 24px; max-width: 1600px; }
+  @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+  .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+  .panel-header { padding: 12px 18px; border-bottom: 1px solid var(--border); font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
+  .panel-body { padding: 18px; }
+  #search-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
+  .search-item { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 12px; }
+  .search-item-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
   .search-item-row:last-child { margin-bottom: 0; }
-
-  .tag-input {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    font-weight: 500;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--border);
-    color: var(--accent);
-    padding: 4px 0;
-    width: 100%;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-
+  .tag-input { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; background: transparent; border: none; border-bottom: 1px solid var(--border); color: var(--accent); padding: 4px 0; width: 100%; outline: none; }
   .tag-input:focus { border-bottom-color: var(--accent); }
-
-  .url-input {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    background: transparent;
-    border: none;
-    border-bottom: 1px solid var(--border);
-    color: var(--muted);
-    padding: 4px 0;
-    width: 100%;
-    outline: none;
-    transition: border-color 0.15s;
-  }
-
+  .url-input { font-family: 'IBM Plex Mono', monospace; font-size: 11px; background: transparent; border: none; border-bottom: 1px solid var(--border); color: var(--muted); padding: 4px 0; width: 100%; outline: none; }
   .url-input:focus { border-bottom-color: var(--accent); color: var(--text); }
-
-  .remove-btn {
-    background: none;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    width: 24px;
-    height: 24px;
-    border-radius: 2px;
-    cursor: pointer;
-    font-size: 14px;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.15s;
-  }
-
+  .remove-btn { background: none; border: 1px solid var(--border); color: var(--muted); width: 24px; height: 24px; border-radius: 2px; cursor: pointer; font-size: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
   .remove-btn:hover { border-color: var(--error); color: var(--error); }
-
-  .btn {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    font-weight: 500;
-    padding: 10px 20px;
-    border-radius: 2px;
-    cursor: pointer;
-    border: none;
-    transition: all 0.15s;
-    letter-spacing: 0.5px;
-  }
-
-  .btn-ghost {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--muted);
-  }
-
+  .btn { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; padding: 9px 18px; border-radius: 2px; cursor: pointer; border: none; transition: all 0.15s; letter-spacing: 0.5px; }
+  .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); }
   .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-
-  .btn-primary {
-    background: var(--accent);
-    color: #000;
-    width: 100%;
-    padding: 14px;
-    font-size: 13px;
-    margin-top: 8px;
-  }
-
+  .btn-primary { background: var(--accent); color: #000; width: 100%; padding: 13px; font-size: 13px; margin-top: 8px; }
   .btn-primary:hover { background: #00eeff; }
   .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-
-  .btn-save {
-    background: transparent;
-    border: 1px solid var(--success);
-    color: var(--success);
-    font-size: 11px;
-    padding: 6px 14px;
-  }
-
+  .btn-save { background: transparent; border: 1px solid var(--success); color: var(--success); font-size: 11px; padding: 5px 12px; }
   .btn-save:hover { background: var(--success); color: #000; }
-
+  /* Right panel tabs */
+  .right-tabs { display: flex; border-bottom: 1px solid var(--border); }
+  .right-tab { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 10px 18px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .right-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .right-tab-content { display: none; }
+  .right-tab-content.active { display: block; }
   /* Spinner */
-  .spinner-wrap {
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    padding: 60px 20px;
-  }
-
-  .spinner-wrap.active { display: flex; }
-
-  .spinner {
-    width: 40px;
-    height: 40px;
-    border: 2px solid var(--border);
-    border-top-color: var(--accent);
-    border-radius: 50%;
-    animation: spin 0.8s linear infinite;
-  }
-
+  .spinner-wrap { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 60px 20px; }
+  .spinner { width: 36px; height: 36px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
-  .spinner-status {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-    text-align: center;
-    line-height: 1.8;
-  }
-
-  .spinner-status .step {
-    opacity: 0.3;
-    transition: opacity 0.3s;
-  }
-
-  .spinner-status .step.active { opacity: 1; color: var(--accent); }
-  .spinner-status .step.done { opacity: 0.6; color: var(--success); }
-
+  .spinner-status { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); text-align: center; line-height: 2; }
+  .step { opacity: 0.3; transition: opacity 0.3s; }
+  .step.active { opacity: 1; color: var(--accent); }
+  .step.done { opacity: 0.6; color: var(--success); }
   /* Results */
-  #results-panel { display: none; }
-  #results-panel.active { display: block; }
-
-  .results-summary {
-    display: flex;
-    gap: 24px;
-    padding: 16px 20px;
-    border-bottom: 1px solid var(--border);
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-  }
-
-  .stat { display: flex; flex-direction: column; gap: 4px; }
-  .stat-val { font-size: 22px; font-weight: 600; color: var(--accent); }
-  .stat-lbl { color: var(--muted); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
+  .results-summary { display: flex; gap: 24px; padding: 14px 18px; border-bottom: 1px solid var(--border); font-family: 'IBM Plex Mono', monospace; }
+  .stat { display: flex; flex-direction: column; gap: 3px; }
+  .stat-val { font-size: 20px; font-weight: 600; color: var(--accent); }
   .stat-val.sold { color: var(--sold); }
   .stat-val.updated { color: var(--success); }
-
-  .tab-bar {
-    display: flex;
-    gap: 0;
-    border-bottom: 1px solid var(--border);
-    overflow-x: auto;
-  }
-
-  .tab-btn {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    padding: 10px 18px;
-    background: none;
-    border: none;
-    border-bottom: 2px solid transparent;
-    color: var(--muted);
-    cursor: pointer;
-    white-space: nowrap;
-    transition: all 0.15s;
-  }
-
+  .stat-lbl { color: var(--muted); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
+  .tab-bar { display: flex; border-bottom: 1px solid var(--border); overflow-x: auto; }
+  .tab-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 9px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); cursor: pointer; white-space: nowrap; transition: all 0.15s; }
   .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
-  .tab-btn:hover:not(.active) { color: var(--text); }
-
   .tab-content { display: none; }
   .tab-content.active { display: block; }
-
-  .results-table {
-    width: 100%;
-    border-collapse: collapse;
-    font-size: 12px;
-  }
-
-  .results-table th {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    font-weight: 500;
-    color: var(--muted);
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    text-align: left;
-    padding: 10px 16px;
-    border-bottom: 1px solid var(--border);
-    background: var(--bg);
-    position: sticky;
-    top: 0;
-  }
-
-  .results-table td {
-    padding: 10px 16px;
-    border-bottom: 1px solid #1a1a1a;
-    vertical-align: top;
-    max-width: 300px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
+  .results-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .results-table th { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; }
+  .results-table td { padding: 9px 14px; border-bottom: 1px solid #1a1a1a; vertical-align: top; max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .results-table tr.sold td { text-decoration: line-through; opacity: 0.45; }
   .results-table tr.new td:first-child { border-left: 2px solid var(--accent); }
   .results-table tr.updated td:first-child { border-left: 2px solid var(--success); }
   .results-table tr.sold td:first-child { border-left: 2px solid var(--sold); }
-
-  .badge {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 9px;
-    padding: 2px 6px;
-    border-radius: 2px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
-  }
-
+  .badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 6px; border-radius: 2px; font-weight: 500; }
   .badge-new { background: rgba(0,212,255,0.12); color: var(--accent); }
   .badge-updated { background: rgba(0,196,140,0.12); color: var(--success); }
   .badge-sold { background: rgba(255,107,53,0.12); color: var(--sold); }
-
-  .price-change { color: var(--success); font-family: 'IBM Plex Mono', monospace; font-size: 11px; }
-  .price-change.up { color: var(--error); }
-
-  .table-wrap { max-height: 500px; overflow-y: auto; }
-
+  .table-wrap { max-height: 420px; overflow-y: auto; }
   a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
-
-  .error-msg {
-    padding: 20px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--error);
-    border: 1px solid rgba(255,68,68,0.2);
-    border-radius: 4px;
-    margin: 20px;
-  }
-
-  .sheet-link {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    color: var(--accent);
-    padding: 8px 20px;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    border-bottom: 1px solid var(--border);
-    text-decoration: none;
-    transition: color 0.15s;
-  }
-
-  .sheet-link:hover { color: #00eeff; text-decoration: none; }
-
-  .empty-state {
-    padding: 60px 20px;
-    text-align: center;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--muted);
-  }
+  .error-msg { padding: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--error); }
+  .empty-state { padding: 50px 20px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); line-height: 2; }
+  /* Google Sheet iframe */
+  .sheet-iframe-wrap { position: relative; width: 100%; height: 600px; }
+  .sheet-iframe-wrap iframe { width: 100%; height: 100%; border: none; }
+  .sheet-link-bar { padding: 10px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .sheet-link-bar a { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); }
 </style>
 </head>
 <body>
-
 <header>
   <h1>// fb-marketplace</h1>
   <span>Bangkok scraper dashboard</span>
 </header>
-
 <div class="layout">
-  <!-- LEFT: Config panel -->
+  <!-- LEFT: Config -->
   <div>
     <div class="panel">
       <div class="panel-header">
@@ -391,52 +103,58 @@
       </div>
       <div class="panel-body">
         <div id="search-list"></div>
-        <button class="btn btn-ghost" onclick="addSearch()" style="width:100%; margin-bottom:16px">+ Add Search</button>
+        <button class="btn btn-ghost" onclick="addSearch()" style="width:100%;margin-bottom:14px">+ Add Search</button>
         <button class="btn btn-primary" id="run-btn" onclick="runScrape()">▶ Run Scrape</button>
       </div>
     </div>
-
-    <div style="margin-top:16px; font-family: 'IBM Plex Mono', monospace; font-size:11px; color:var(--muted); padding: 0 4px; line-height:1.8">
-      Results also written to Google Sheets.<br>
-      Sold items: strikethrough + marked sold.<br>
-      Price changes logged per listing.
+    <div style="margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);padding:0 4px;line-height:1.9">
+      Config syncs with n8n.<br>Sold items: strikethrough + marked.<br>Price changes logged per listing.
     </div>
   </div>
 
-  <!-- RIGHT: Output panel -->
+  <!-- RIGHT: Output -->
   <div>
-    <!-- Spinner -->
-    <div class="panel" id="spinner-panel" style="display:none">
-      <div class="panel-header"><span>Running</span></div>
-      <div class="spinner-wrap active">
-        <div class="spinner"></div>
-        <div class="spinner-status" id="spinner-status">
-          <div class="step active" id="step-1">→ Starting Apify actor...</div>
-          <div class="step" id="step-2">→ Scraping FB Marketplace...</div>
-          <div class="step" id="step-3">→ Processing listings...</div>
-          <div class="step" id="step-4">→ Writing to Google Sheets...</div>
+    <div class="panel">
+      <div class="right-tabs">
+        <button class="right-tab active" onclick="switchRightTab('results', this)">Results</button>
+        <button class="right-tab" onclick="switchRightTab('sheet', this)">Google Sheet</button>
+      </div>
+
+      <!-- Results tab -->
+      <div class="right-tab-content active" id="tab-results">
+        <!-- Spinner -->
+        <div id="spinner-wrap" style="display:none">
+          <div class="spinner-wrap">
+            <div class="spinner"></div>
+            <div class="spinner-status">
+              <div class="step active" id="step-1">→ Connecting to Apify...</div>
+              <div class="step" id="step-2">→ Scraping FB Marketplace...</div>
+              <div class="step" id="step-3">→ Processing listings...</div>
+              <div class="step" id="step-4">→ Writing to Google Sheets...</div>
+            </div>
+          </div>
+        </div>
+        <!-- Empty state -->
+        <div id="empty-state">
+          <div class="empty-state">Configure searches and click<br>▶ Run Scrape to see results here.</div>
+        </div>
+        <!-- Results -->
+        <div id="results-wrap" style="display:none">
+          <div class="results-summary" id="results-summary"></div>
+          <div class="tab-bar" id="tab-bar"></div>
+          <div id="tab-contents"></div>
         </div>
       </div>
-    </div>
 
-    <!-- Results -->
-    <div class="panel" id="results-panel">
-      <div class="panel-header">
-        <span>Results</span>
-        <span id="results-time" style="color:var(--muted)"></span>
-      </div>
-      <div class="results-summary" id="results-summary"></div>
-      <a class="sheet-link" id="sheet-link" href="https://docs.google.com/spreadsheets/d/1VmtCgFOoEbolmtOitjU3h4kRTavXQlvOMpzIWLpfGqQ" target="_blank">
-        ↗ Open Google Sheet
-      </a>
-      <div class="tab-bar" id="tab-bar"></div>
-      <div id="tab-contents"></div>
-    </div>
-
-    <!-- Empty state -->
-    <div class="panel" id="empty-panel">
-      <div class="empty-state">
-        Configure searches and click Run Scrape<br>to see results here.
+      <!-- Sheet tab -->
+      <div class="right-tab-content" id="tab-sheet">
+        <div class="sheet-link-bar">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">Live Google Sheet</span>
+          <a href="https://docs.google.com/spreadsheets/d/1VmtCgFOoEbolmtOitjU3h4kRTavXQlvOMpzIWLpfGqQ" target="_blank">↗ Open in Google Sheets</a>
+        </div>
+        <div class="sheet-iframe-wrap">
+          <iframe src="https://docs.google.com/spreadsheets/d/1VmtCgFOoEbolmtOitjU3h4kRTavXQlvOMpzIWLpfGqQ/edit?usp=sharing&rm=minimal&single=true" allowfullscreen></iframe>
+        </div>
       </div>
     </div>
   </div>
@@ -445,64 +163,65 @@
 <script>
 let config = { searches: [] };
 
+function switchRightTab(name, btn) {
+  document.querySelectorAll('.right-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.right-tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('tab-' + name).classList.add('active');
+}
+
 async function init() {
-  const res = await fetch('/api/config');
-  config = await res.json();
-  renderSearchList();
+  try {
+    const res = await fetch('/api/config');
+    config = await res.json();
+    renderSearchList();
+  } catch (e) {
+    console.error('Failed to load config:', e);
+  }
 }
 
 function renderSearchList() {
   const list = document.getElementById('search-list');
   list.innerHTML = '';
-  config.searches.forEach((s, i) => {
+  (config.searches || []).forEach((s, i) => {
     const div = document.createElement('div');
     div.className = 'search-item';
     div.innerHTML = `
       <div class="search-item-row">
-        <input class="tag-input" placeholder="Tab name / tag" value="${s.tag}" onchange="updateSearch(${i}, 'tag', this.value)" />
+        <input class="tag-input" placeholder="Tab name" value="${escHtml(s.tag)}" oninput="updateSearch(${i},'tag',this.value)" />
         <button class="remove-btn" onclick="removeSearch(${i})">×</button>
       </div>
       <div class="search-item-row">
-        <input class="url-input" placeholder="Facebook Marketplace URL" value="${s.url}" onchange="updateSearch(${i}, 'url', this.value)" />
-      </div>
-    `;
+        <input class="url-input" placeholder="Facebook Marketplace URL" value="${escHtml(s.url)}" oninput="updateSearch(${i},'url',this.value)" />
+      </div>`;
     list.appendChild(div);
   });
 }
 
-function addSearch() {
-  config.searches.push({ url: '', tag: 'New Search' });
-  renderSearchList();
-}
-
-function removeSearch(i) {
-  config.searches.splice(i, 1);
-  renderSearchList();
-}
-
-function updateSearch(i, field, val) {
-  config.searches[i][field] = val;
-}
+function escHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function addSearch() { config.searches.push({ url: '', tag: 'New Search' }); renderSearchList(); }
+function removeSearch(i) { config.searches.splice(i, 1); renderSearchList(); }
+function updateSearch(i, field, val) { config.searches[i][field] = val; }
 
 async function saveConfig() {
-  await fetch('/api/config', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(config)
-  });
   const btn = document.querySelector('.btn-save');
-  btn.textContent = 'Saved ✓';
+  btn.textContent = 'Saving...';
+  try {
+    await fetch('/api/config', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ searches: config.searches })
+    });
+    btn.textContent = 'Saved ✓';
+  } catch { btn.textContent = 'Error'; }
   setTimeout(() => btn.textContent = 'Save', 2000);
 }
 
-// Animate spinner steps
-let stepTimer;
 function animateSteps() {
-  const steps = ['step-1','step-2','step-3','step-4'];
-  const delays = [0, 15000, 45000, 90000];
-  steps.forEach((id, i) => {
+  const delays = [0, 20000, 60000, 100000];
+  ['step-1','step-2','step-3','step-4'].forEach((id, i) => {
     setTimeout(() => {
-      if (i > 0) document.getElementById(steps[i-1]).className = 'step done';
+      if (i > 0) document.getElementById('step-' + i).className = 'step done';
       document.getElementById(id).className = 'step active';
     }, delays[i]);
   });
@@ -510,82 +229,64 @@ function animateSteps() {
 
 async function runScrape() {
   await saveConfig();
-
   document.getElementById('run-btn').disabled = true;
-  document.getElementById('empty-panel').style.display = 'none';
-  document.getElementById('results-panel').classList.remove('active');
-  document.getElementById('spinner-panel').style.display = 'block';
-
-  // Reset steps
-  ['step-1','step-2','step-3','step-4'].forEach((id, i) => {
+  document.getElementById('empty-state').style.display = 'none';
+  document.getElementById('results-wrap').style.display = 'none';
+  document.getElementById('spinner-wrap').style.display = 'block';
+  ['step-1','step-2','step-3','step-4'].forEach((id,i) => {
     document.getElementById(id).className = i === 0 ? 'step active' : 'step';
   });
   animateSteps();
-
   const start = Date.now();
-
   try {
     const res = await fetch('/api/run', { method: 'POST' });
     const data = await res.json();
     const elapsed = Math.round((Date.now() - start) / 1000);
-
-    document.getElementById('spinner-panel').style.display = 'none';
-    clearTimeout(stepTimer);
-
-    if (data.ok) {
-      renderResults(data.result, elapsed);
-    } else {
-      showError(data.error);
-    }
+    document.getElementById('spinner-wrap').style.display = 'none';
+    if (data.ok) renderResults(data.result, elapsed);
+    else showError(data.error || 'Unknown error');
   } catch (err) {
-    document.getElementById('spinner-panel').style.display = 'none';
+    document.getElementById('spinner-wrap').style.display = 'none';
     showError(err.message);
   }
-
   document.getElementById('run-btn').disabled = false;
 }
 
 function showError(msg) {
-  const panel = document.getElementById('results-panel');
-  panel.classList.add('active');
-  panel.innerHTML = `<div class="error-msg">Error: ${msg}</div>`;
+  document.getElementById('results-wrap').style.display = 'block';
+  document.getElementById('results-wrap').innerHTML = `<div class="error-msg">Error: ${msg}</div>`;
 }
 
 function renderResults(result, elapsed) {
-  const panel = document.getElementById('results-panel');
-  panel.classList.add('active');
-
-  // Try to parse result into tabs
-  let tabs = {};
+  document.getElementById('results-wrap').style.display = 'block';
+  const tabs = {};
   let totalNew = 0, totalUpdated = 0, totalSold = 0;
-
-  if (Array.isArray(result)) {
-    result.forEach(item => {
-      const tab = item.tabName || 'Results';
-      if (!tabs[tab]) tabs[tab] = [];
-      tabs[tab].push(item);
-      if (item._op === 'append') totalNew++;
-      else if (item._op === 'update') totalUpdated++;
-      else if (item._op === 'sold') totalSold++;
-    });
-  } else {
-    tabs['Output'] = [result];
-  }
-
-  document.getElementById('results-time').textContent = `${elapsed}s`;
+  const items = Array.isArray(result) ? result : [result];
+  items.forEach(item => {
+    if (!item || item.ok === true || item._op === 'noop') return;
+    const tab = item.tabName || 'Results';
+    if (!tabs[tab]) tabs[tab] = [];
+    tabs[tab].push(item);
+    if (item._op === 'append') totalNew++;
+    else if (item._op === 'update') totalUpdated++;
+    else if (item._op === 'sold') totalSold++;
+  });
 
   document.getElementById('results-summary').innerHTML = `
     <div class="stat"><div class="stat-val">${totalNew}</div><div class="stat-lbl">New</div></div>
     <div class="stat"><div class="stat-val updated">${totalUpdated}</div><div class="stat-lbl">Updated</div></div>
     <div class="stat"><div class="stat-val sold">${totalSold}</div><div class="stat-lbl">Sold</div></div>
-    <div class="stat"><div class="stat-val" style="color:var(--muted)">${elapsed}s</div><div class="stat-lbl">Duration</div></div>
-  `;
+    <div class="stat"><div class="stat-val" style="color:var(--muted)">${elapsed}s</div><div class="stat-lbl">Duration</div></div>`;
 
   const tabNames = Object.keys(tabs);
   const tabBar = document.getElementById('tab-bar');
   const tabContents = document.getElementById('tab-contents');
-  tabBar.innerHTML = '';
-  tabContents.innerHTML = '';
+  tabBar.innerHTML = ''; tabContents.innerHTML = '';
+
+  if (tabNames.length === 0) {
+    tabContents.innerHTML = '<div class="empty-state">No new changes this run.<br>All listings are up to date.</div>';
+    return;
+  }
 
   tabNames.forEach((name, i) => {
     const btn = document.createElement('button');
@@ -595,58 +296,26 @@ function renderResults(result, elapsed) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
       btn.classList.add('active');
-      document.getElementById('tab-' + i).classList.add('active');
+      document.getElementById('tc-' + i).classList.add('active');
     };
     tabBar.appendChild(btn);
 
     const content = document.createElement('div');
     content.className = 'tab-content' + (i === 0 ? ' active' : '');
-    content.id = 'tab-' + i;
-
+    content.id = 'tc-' + i;
     const rows = tabs[name];
-    if (!rows.length) {
-      content.innerHTML = '<div class="empty-state">No changes for this tab</div>';
-    } else {
-      content.innerHTML = `
-        <div class="table-wrap">
-          <table class="results-table">
-            <thead>
-              <tr>
-                <th>Status</th>
-                <th>Title</th>
-                <th>Price</th>
-                <th>Change</th>
-                <th>Link</th>
-              </tr>
-            </thead>
-            <tbody>
-              ${rows.map(r => {
-                const op = r._op || 'append';
-                const rowClass = op === 'sold' ? 'sold' : op === 'update' ? 'updated' : 'new';
-                const badge = op === 'sold'
-                  ? '<span class="badge badge-sold">SOLD</span>'
-                  : op === 'update'
-                  ? '<span class="badge badge-updated">UPDATED</span>'
-                  : '<span class="badge badge-new">NEW</span>';
-                const priceChange = r.price_change
-                  ? `<span class="price-change ${r.price_change.startsWith('+') ? 'up' : ''}">${r.price_change}</span>`
-                  : '—';
-                const title = (r.title || r.listing_id || 'Unknown').substring(0, 60);
-                const price = r.price ? `${r.currency || ''}${r.price}` : '—';
-                const link = r.link ? `<a href="${r.link}" target="_blank">↗</a>` : '—';
-                return `<tr class="${rowClass}">
-                  <td>${badge}</td>
-                  <td title="${r.title || ''}">${title}</td>
-                  <td style="font-family:'IBM Plex Mono',monospace">${price}</td>
-                  <td>${priceChange}</td>
-                  <td>${link}</td>
-                </tr>`;
-              }).join('')}
-            </tbody>
-          </table>
-        </div>
-      `;
-    }
+    content.innerHTML = `<div class="table-wrap"><table class="results-table">
+      <thead><tr><th>Status</th><th>Title</th><th>Price</th><th>Change</th><th>Link</th></tr></thead>
+      <tbody>${rows.map(r => {
+        const op = r._op || 'append';
+        const cls = op === 'sold' ? 'sold' : op === 'update' ? 'updated' : 'new';
+        const badge = op === 'sold' ? '<span class="badge badge-sold">SOLD</span>' : op === 'update' ? '<span class="badge badge-updated">UPDATED</span>' : '<span class="badge badge-new">NEW</span>';
+        const title = escHtml((r.title || r.listing_id || '').substring(0, 55));
+        const price = r.price ? `${r.currency||''}${r.price}` : '—';
+        const change = r.price_change ? `<span style="color:${r.price_change.startsWith('+') ? 'var(--error)' : 'var(--success)'};font-family:'IBM Plex Mono',monospace;font-size:11px">${escHtml(r.price_change)}</span>` : '—';
+        const link = r.link ? `<a href="${r.link}" target="_blank">↗</a>` : '—';
+        return `<tr class="${cls}"><td>${badge}</td><td title="${escHtml(r.title||'')}">${title}</td><td style="font-family:'IBM Plex Mono',monospace">${price}</td><td>${change}</td><td>${link}</td></tr>`;
+      }).join('')}</tbody></table></div>`;
     tabContents.appendChild(content);
   });
 }
