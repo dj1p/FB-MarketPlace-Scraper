@@ -12,103 +12,161 @@
     --success: #00c48c; --error: #ff4444; --sold: #ff6b35;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; padding: 32px 24px; }
-  header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 40px; border-bottom: 1px solid var(--border); padding-bottom: 20px; }
-  header h1 { font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 600; color: var(--accent); }
+  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Sans', sans-serif; min-height: 100vh; padding: 24px; }
+
+  header {
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 24px; border-bottom: 1px solid var(--border); padding-bottom: 16px;
+    gap: 16px; flex-wrap: wrap;
+  }
+  .header-left { display: flex; align-items: baseline; gap: 16px; }
+  header h1 { font-family: 'IBM Plex Mono', monospace; font-size: 18px; font-weight: 600; color: var(--accent); }
   header span { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
-  .layout { display: grid; grid-template-columns: 380px 1fr; gap: 24px; max-width: 1600px; }
+  .header-actions { display: flex; gap: 10px; align-items: center; }
+
+  .layout { display: grid; grid-template-columns: 360px 1fr; gap: 20px; max-width: 1600px; }
   @media (max-width: 900px) { .layout { grid-template-columns: 1fr; } }
+
   .panel { background: var(--surface); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
-  .panel-header { padding: 12px 18px; border-bottom: 1px solid var(--border); font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; display: flex; justify-content: space-between; align-items: center; }
-  .panel-body { padding: 18px; }
-  #search-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; }
-  .search-item { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 12px; }
-  .search-item-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; }
+  .panel-header {
+    padding: 11px 16px; border-bottom: 1px solid var(--border);
+    font-family: 'IBM Plex Mono', monospace; font-size: 11px; font-weight: 500;
+    color: var(--muted); letter-spacing: 1px; text-transform: uppercase;
+    display: flex; justify-content: space-between; align-items: center;
+    cursor: pointer; user-select: none;
+  }
+  .panel-header:hover { color: var(--text); }
+  .panel-header .chevron { transition: transform 0.2s; font-size: 10px; }
+  .panel-header.collapsed .chevron { transform: rotate(-90deg); }
+  .panel-body { padding: 16px; }
+  .panel-body.collapsed { display: none; }
+
+  /* Config header actions */
+  .config-actions { display: flex; gap: 8px; align-items: center; }
+
+  /* Search list */
+  #search-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
+  .search-item { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 11px; }
+  .search-item-row { display: flex; gap: 8px; align-items: center; margin-bottom: 7px; }
   .search-item-row:last-child { margin-bottom: 0; }
-  .tag-input { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; background: transparent; border: none; border-bottom: 1px solid var(--border); color: var(--accent); padding: 4px 0; width: 100%; outline: none; }
+  .tag-input { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; background: transparent; border: none; border-bottom: 1px solid var(--border); color: var(--accent); padding: 3px 0; width: 100%; outline: none; }
   .tag-input:focus { border-bottom-color: var(--accent); }
-  .url-input { font-family: 'IBM Plex Mono', monospace; font-size: 11px; background: transparent; border: none; border-bottom: 1px solid var(--border); color: var(--muted); padding: 4px 0; width: 100%; outline: none; }
+  .url-input { font-family: 'IBM Plex Mono', monospace; font-size: 11px; background: transparent; border: none; border-bottom: 1px solid var(--border); color: var(--muted); padding: 3px 0; width: 100%; outline: none; }
   .url-input:focus { border-bottom-color: var(--accent); color: var(--text); }
-  .remove-btn { background: none; border: 1px solid var(--border); color: var(--muted); width: 24px; height: 24px; border-radius: 2px; cursor: pointer; font-size: 14px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+  .remove-btn { background: none; border: 1px solid var(--border); color: var(--muted); width: 22px; height: 22px; border-radius: 2px; cursor: pointer; font-size: 13px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
   .remove-btn:hover { border-color: var(--error); color: var(--error); }
-  .btn { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; padding: 9px 18px; border-radius: 2px; cursor: pointer; border: none; transition: all 0.15s; letter-spacing: 0.5px; }
+
+  /* Advanced/text editor */
+  #advanced-editor { display: none; }
+  #advanced-editor textarea {
+    width: 100%; height: 220px; background: var(--bg); border: 1px solid var(--border);
+    color: var(--text); font-family: 'IBM Plex Mono', monospace; font-size: 11px;
+    padding: 12px; resize: vertical; outline: none; border-radius: 2px; line-height: 1.6;
+  }
+  #advanced-editor textarea:focus { border-color: var(--accent); }
+  .advanced-hint { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 6px; }
+
+  /* Buttons */
+  .btn { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; padding: 8px 16px; border-radius: 2px; cursor: pointer; border: none; transition: all 0.15s; letter-spacing: 0.5px; white-space: nowrap; }
   .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); }
   .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
-  .btn-primary { background: var(--accent); color: #000; width: 100%; padding: 13px; font-size: 13px; margin-top: 8px; }
+  .btn-primary { background: var(--accent); color: #000; padding: 10px 24px; font-size: 13px; }
   .btn-primary:hover { background: #00eeff; }
   .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
-  .btn-save { background: transparent; border: 1px solid var(--success); color: var(--success); font-size: 11px; padding: 5px 12px; }
+  .btn-save { background: transparent; border: 1px solid var(--success); color: var(--success); font-size: 11px; padding: 5px 11px; }
   .btn-save:hover { background: var(--success); color: #000; }
-  /* Right panel tabs */
+  .btn-sm { font-size: 10px; padding: 4px 10px; }
+
+  /* Right panel */
   .right-tabs { display: flex; border-bottom: 1px solid var(--border); }
-  .right-tab { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 10px 18px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+  .right-tab { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 9px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
   .right-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
   .right-tab-content { display: none; }
   .right-tab-content.active { display: block; }
+
   /* Spinner */
-  .spinner-wrap { display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 60px 20px; }
-  .spinner { width: 36px; height: 36px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
+  .spinner-wrap { display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 50px 20px; }
+  .spinner { width: 34px; height: 34px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
   .spinner-status { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); text-align: center; line-height: 2; }
   .step { opacity: 0.3; transition: opacity 0.3s; }
   .step.active { opacity: 1; color: var(--accent); }
   .step.done { opacity: 0.6; color: var(--success); }
+
   /* Results */
-  .results-summary { display: flex; gap: 24px; padding: 14px 18px; border-bottom: 1px solid var(--border); font-family: 'IBM Plex Mono', monospace; }
+  .results-summary { display: flex; gap: 24px; padding: 12px 16px; border-bottom: 1px solid var(--border); font-family: 'IBM Plex Mono', monospace; }
   .stat { display: flex; flex-direction: column; gap: 3px; }
   .stat-val { font-size: 20px; font-weight: 600; color: var(--accent); }
   .stat-val.sold { color: var(--sold); }
   .stat-val.updated { color: var(--success); }
   .stat-lbl { color: var(--muted); font-size: 10px; letter-spacing: 1px; text-transform: uppercase; }
   .tab-bar { display: flex; border-bottom: 1px solid var(--border); overflow-x: auto; }
-  .tab-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 9px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); cursor: pointer; white-space: nowrap; transition: all 0.15s; }
+  .tab-btn { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 8px 14px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); cursor: pointer; white-space: nowrap; transition: all 0.15s; }
   .tab-btn.active { color: var(--accent); border-bottom-color: var(--accent); }
   .tab-content { display: none; }
   .tab-content.active { display: block; }
   .results-table { width: 100%; border-collapse: collapse; font-size: 12px; }
-  .results-table th { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; text-align: left; padding: 9px 14px; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; }
-  .results-table td { padding: 9px 14px; border-bottom: 1px solid #1a1a1a; vertical-align: top; max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .results-table th { font-family: 'IBM Plex Mono', monospace; font-size: 10px; font-weight: 500; color: var(--muted); letter-spacing: 1px; text-transform: uppercase; text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--border); background: var(--bg); position: sticky; top: 0; }
+  .results-table td { padding: 8px 12px; border-bottom: 1px solid #1a1a1a; vertical-align: top; max-width: 260px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .results-table tr.sold td { text-decoration: line-through; opacity: 0.45; }
   .results-table tr.new td:first-child { border-left: 2px solid var(--accent); }
   .results-table tr.updated td:first-child { border-left: 2px solid var(--success); }
   .results-table tr.sold td:first-child { border-left: 2px solid var(--sold); }
-  .badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 6px; border-radius: 2px; font-weight: 500; }
+  .badge { font-family: 'IBM Plex Mono', monospace; font-size: 9px; padding: 2px 5px; border-radius: 2px; font-weight: 500; }
   .badge-new { background: rgba(0,212,255,0.12); color: var(--accent); }
   .badge-updated { background: rgba(0,196,140,0.12); color: var(--success); }
   .badge-sold { background: rgba(255,107,53,0.12); color: var(--sold); }
-  .table-wrap { max-height: 420px; overflow-y: auto; }
+  .table-wrap { max-height: 400px; overflow-y: auto; }
   a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
   .error-msg { padding: 20px; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--error); }
   .empty-state { padding: 50px 20px; text-align: center; font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); line-height: 2; }
-  /* Google Sheet iframe */
-  .sheet-iframe-wrap { position: relative; width: 100%; height: 600px; }
-  .sheet-iframe-wrap iframe { width: 100%; height: 100%; border: none; }
-  .sheet-link-bar { padding: 10px 18px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
+  .sheet-link-bar { padding: 9px 16px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; }
   .sheet-link-bar a { font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: var(--accent); }
+  .sheet-iframe-wrap { width: 100%; height: 580px; }
+  .sheet-iframe-wrap iframe { width: 100%; height: 100%; border: none; }
 </style>
 </head>
 <body>
+
 <header>
-  <h1>// fb-marketplace</h1>
-  <span>Bangkok scraper dashboard</span>
+  <div class="header-left">
+    <h1>// fb-marketplace</h1>
+    <span>Bangkok scraper dashboard</span>
+  </div>
+  <div class="header-actions">
+    <button class="btn btn-save" onclick="saveConfig()">Save Config</button>
+    <button class="btn btn-primary" id="run-btn" onclick="runScrape()">▶ Run Scrape</button>
+  </div>
 </header>
+
 <div class="layout">
   <!-- LEFT: Config -->
   <div>
     <div class="panel">
-      <div class="panel-header">
-        <span>Search Config</span>
-        <button class="btn btn-save" onclick="saveConfig()">Save</button>
+      <div class="panel-header" id="config-header" onclick="toggleConfig()">
+        <span>Search Config <span id="search-count" style="color:var(--accent)"></span></span>
+        <div style="display:flex;gap:8px;align-items:center" onclick="e => e.stopPropagation()">
+          <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); toggleAdvanced()">{ } Advanced</button>
+          <span class="chevron">▾</span>
+        </div>
       </div>
-      <div class="panel-body">
-        <div id="search-list"></div>
-        <button class="btn btn-ghost" onclick="addSearch()" style="width:100%;margin-bottom:14px">+ Add Search</button>
-        <button class="btn btn-primary" id="run-btn" onclick="runScrape()">▶ Run Scrape</button>
+      <div class="panel-body" id="config-body">
+        <!-- Visual editor -->
+        <div id="visual-editor">
+          <div id="search-list"></div>
+          <button class="btn btn-ghost" onclick="addSearch()" style="width:100%;margin-bottom:0">+ Add Search</button>
+        </div>
+        <!-- Advanced text editor -->
+        <div id="advanced-editor">
+          <textarea id="advanced-textarea" spellcheck="false" placeholder="Loading..."></textarea>
+          <div class="advanced-hint">One search per line: URL | Tab Name</div>
+          <div style="display:flex;gap:8px;margin-top:10px">
+            <button class="btn btn-ghost btn-sm" onclick="applyAdvanced()">Apply</button>
+            <button class="btn btn-ghost btn-sm" onclick="toggleAdvanced()">Cancel</button>
+          </div>
+        </div>
       </div>
-    </div>
-    <div style="margin-top:12px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);padding:0 4px;line-height:1.9">
-      Config syncs with n8n.<br>Sold items: strikethrough + marked.<br>Price changes logged per listing.
     </div>
   </div>
 
@@ -120,9 +178,7 @@
         <button class="right-tab" onclick="switchRightTab('sheet', this)">Google Sheet</button>
       </div>
 
-      <!-- Results tab -->
       <div class="right-tab-content active" id="tab-results">
-        <!-- Spinner -->
         <div id="spinner-wrap" style="display:none">
           <div class="spinner-wrap">
             <div class="spinner"></div>
@@ -134,11 +190,9 @@
             </div>
           </div>
         </div>
-        <!-- Empty state -->
         <div id="empty-state">
           <div class="empty-state">Configure searches and click<br>▶ Run Scrape to see results here.</div>
         </div>
-        <!-- Results -->
         <div id="results-wrap" style="display:none">
           <div class="results-summary" id="results-summary"></div>
           <div class="tab-bar" id="tab-bar"></div>
@@ -146,14 +200,13 @@
         </div>
       </div>
 
-      <!-- Sheet tab -->
       <div class="right-tab-content" id="tab-sheet">
         <div class="sheet-link-bar">
           <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">Live Google Sheet</span>
           <a href="https://docs.google.com/spreadsheets/d/1VmtCgFOoEbolmtOitjU3h4kRTavXQlvOMpzIWLpfGqQ" target="_blank">↗ Open in Google Sheets</a>
         </div>
         <div class="sheet-iframe-wrap">
-          <iframe src="https://docs.google.com/spreadsheets/d/1VmtCgFOoEbolmtOitjU3h4kRTavXQlvOMpzIWLpfGqQ/edit?usp=sharing&rm=minimal&single=true" allowfullscreen></iframe>
+          <iframe src="https://docs.google.com/spreadsheets/d/1VmtCgFOoEbolmtOitjU3h4kRTavXQlvOMpzIWLpfGqQ/edit?usp=sharing&rm=minimal" allowfullscreen></iframe>
         </div>
       </div>
     </div>
@@ -162,6 +215,8 @@
 
 <script>
 let config = { searches: [] };
+let configCollapsed = false;
+let advancedMode = false;
 
 function switchRightTab(name, btn) {
   document.querySelectorAll('.right-tab').forEach(b => b.classList.remove('active'));
@@ -170,10 +225,45 @@ function switchRightTab(name, btn) {
   document.getElementById('tab-' + name).classList.add('active');
 }
 
+function toggleConfig() {
+  configCollapsed = !configCollapsed;
+  document.getElementById('config-body').classList.toggle('collapsed', configCollapsed);
+  document.getElementById('config-header').classList.toggle('collapsed', configCollapsed);
+}
+
+function toggleAdvanced() {
+  advancedMode = !advancedMode;
+  document.getElementById('visual-editor').style.display = advancedMode ? 'none' : 'block';
+  document.getElementById('advanced-editor').style.display = advancedMode ? 'block' : 'none';
+  if (advancedMode) {
+    // Populate textarea
+    const lines = config.searches.map(s => `${s.url} | ${s.tag}`).join('\n');
+    document.getElementById('advanced-textarea').value = lines;
+  }
+}
+
+function applyAdvanced() {
+  const lines = document.getElementById('advanced-textarea').value.trim().split('\n');
+  const searches = [];
+  for (const line of lines) {
+    const parts = line.split('|');
+    if (parts.length >= 2) {
+      const url = parts.slice(0, -1).join('|').trim();
+      const tag = parts[parts.length - 1].trim();
+      if (url && tag) searches.push({ url, tag });
+    }
+  }
+  if (searches.length === 0) { alert('No valid searches found. Format: URL | Tab Name'); return; }
+  config.searches = searches;
+  toggleAdvanced();
+  renderSearchList();
+}
+
 async function init() {
   try {
     const res = await fetch('/api/config');
-    config = await res.json();
+    const data = await res.json();
+    if (data.searches) config = data;
     renderSearchList();
   } catch (e) {
     console.error('Failed to load config:', e);
@@ -183,25 +273,26 @@ async function init() {
 function renderSearchList() {
   const list = document.getElementById('search-list');
   list.innerHTML = '';
-  (config.searches || []).forEach((s, i) => {
+  document.getElementById('search-count').textContent = `(${config.searches.length})`;
+  config.searches.forEach((s, i) => {
     const div = document.createElement('div');
     div.className = 'search-item';
     div.innerHTML = `
       <div class="search-item-row">
-        <input class="tag-input" placeholder="Tab name" value="${escHtml(s.tag)}" oninput="updateSearch(${i},'tag',this.value)" />
+        <input class="tag-input" placeholder="Tab name" value="${esc(s.tag)}" oninput="updateSearch(${i},'tag',this.value)" />
         <button class="remove-btn" onclick="removeSearch(${i})">×</button>
       </div>
       <div class="search-item-row">
-        <input class="url-input" placeholder="Facebook Marketplace URL" value="${escHtml(s.url)}" oninput="updateSearch(${i},'url',this.value)" />
+        <input class="url-input" placeholder="Facebook Marketplace URL" value="${esc(s.url)}" oninput="updateSearch(${i},'url',this.value)" />
       </div>`;
     list.appendChild(div);
   });
 }
 
-function escHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
 function addSearch() { config.searches.push({ url: '', tag: 'New Search' }); renderSearchList(); }
 function removeSearch(i) { config.searches.splice(i, 1); renderSearchList(); }
-function updateSearch(i, field, val) { config.searches[i][field] = val; }
+function updateSearch(i, f, v) { config.searches[i][f] = v; }
 
 async function saveConfig() {
   const btn = document.querySelector('.btn-save');
@@ -214,7 +305,7 @@ async function saveConfig() {
     });
     btn.textContent = 'Saved ✓';
   } catch { btn.textContent = 'Error'; }
-  setTimeout(() => btn.textContent = 'Save', 2000);
+  setTimeout(() => btn.textContent = 'Save Config', 2000);
 }
 
 function animateSteps() {
@@ -261,8 +352,7 @@ function renderResults(result, elapsed) {
   document.getElementById('results-wrap').style.display = 'block';
   const tabs = {};
   let totalNew = 0, totalUpdated = 0, totalSold = 0;
-  const items = Array.isArray(result) ? result : [result];
-  items.forEach(item => {
+  (Array.isArray(result) ? result : [result]).forEach(item => {
     if (!item || item.ok === true || item._op === 'noop') return;
     const tab = item.tabName || 'Results';
     if (!tabs[tab]) tabs[tab] = [];
@@ -283,8 +373,8 @@ function renderResults(result, elapsed) {
   const tabContents = document.getElementById('tab-contents');
   tabBar.innerHTML = ''; tabContents.innerHTML = '';
 
-  if (tabNames.length === 0) {
-    tabContents.innerHTML = '<div class="empty-state">No new changes this run.<br>All listings are up to date.</div>';
+  if (!tabNames.length) {
+    tabContents.innerHTML = '<div class="empty-state">No changes this run — all listings up to date.</div>';
     return;
   }
 
@@ -303,18 +393,17 @@ function renderResults(result, elapsed) {
     const content = document.createElement('div');
     content.className = 'tab-content' + (i === 0 ? ' active' : '');
     content.id = 'tc-' + i;
-    const rows = tabs[name];
     content.innerHTML = `<div class="table-wrap"><table class="results-table">
       <thead><tr><th>Status</th><th>Title</th><th>Price</th><th>Change</th><th>Link</th></tr></thead>
-      <tbody>${rows.map(r => {
+      <tbody>${tabs[name].map(r => {
         const op = r._op || 'append';
         const cls = op === 'sold' ? 'sold' : op === 'update' ? 'updated' : 'new';
         const badge = op === 'sold' ? '<span class="badge badge-sold">SOLD</span>' : op === 'update' ? '<span class="badge badge-updated">UPDATED</span>' : '<span class="badge badge-new">NEW</span>';
-        const title = escHtml((r.title || r.listing_id || '').substring(0, 55));
+        const title = esc((r.title || r.listing_id || '').substring(0, 55));
         const price = r.price ? `${r.currency||''}${r.price}` : '—';
-        const change = r.price_change ? `<span style="color:${r.price_change.startsWith('+') ? 'var(--error)' : 'var(--success)'};font-family:'IBM Plex Mono',monospace;font-size:11px">${escHtml(r.price_change)}</span>` : '—';
+        const change = r.price_change ? `<span style="color:${r.price_change.startsWith('+') ? 'var(--error)' : 'var(--success)'};font-family:'IBM Plex Mono',monospace;font-size:11px">${esc(r.price_change)}</span>` : '—';
         const link = r.link ? `<a href="${r.link}" target="_blank">↗</a>` : '—';
-        return `<tr class="${cls}"><td>${badge}</td><td title="${escHtml(r.title||'')}">${title}</td><td style="font-family:'IBM Plex Mono',monospace">${price}</td><td>${change}</td><td>${link}</td></tr>`;
+        return `<tr class="${cls}"><td>${badge}</td><td title="${esc(r.title||'')}">${title}</td><td style="font-family:'IBM Plex Mono',monospace">${price}</td><td>${change}</td><td>${link}</td></tr>`;
       }).join('')}</tbody></table></div>`;
     tabContents.appendChild(content);
   });
