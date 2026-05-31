@@ -58,11 +58,17 @@ app.post('/api/run', async (req, res) => {
       timeout: 600000 // 10 min
     });
 
+    const contentType = response.headers.get('content-type') || '';
     const text = await response.text();
     let data;
-    try { data = JSON.parse(text); } catch { data = { raw: text }; }
+    if (contentType.includes('application/json')) {
+      try { data = JSON.parse(text); } catch { data = { raw: text }; }
+    } else {
+      // n8n sometimes returns plain text or HTML on errors
+      try { data = JSON.parse(text); } catch { data = { message: text.substring(0, 500) }; }
+    }
 
-    res.json({ ok: true, result: data });
+    res.json({ ok: true, result: Array.isArray(data) ? data : [data] });
   } catch (err) {
     res.status(500).json({ ok: false, error: err.message });
   }
