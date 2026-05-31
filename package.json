@@ -1,14 +1,18 @@
 {
   "name": "fb-marketplace-ui",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "FB Marketplace scraper dashboard",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "dev": "node -r dotenv/config server.js"
   },
   "dependencies": {
     "express": "^4.18.2",
     "node-fetch": "^3.3.2"
+  },
+  "devDependencies": {
+    "dotenv": "^16.4.5"
   },
   "engines": {
     "node": ">=18"
