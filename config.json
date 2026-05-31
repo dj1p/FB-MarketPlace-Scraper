@@ -1,0 +1,16 @@
+{
+  "searches": [
+    {
+      "url": "https://www.facebook.com/marketplace/bangkok/search/?query=%20logitech%20keyboard",
+      "tag": "Logitech Keyboard"
+    },
+    {
+      "url": "https://www.facebook.com/marketplace/bangkok/search?maxPrice=3500&query=dell%20monitor&exact=false",
+      "tag": "Dell Monitor"
+    },
+    {
+      "url": "https://www.facebook.com/marketplace/bangkok/search/?query=logitech%20mx",
+      "tag": "Logitech MX"
+    }
+  ]
+}
