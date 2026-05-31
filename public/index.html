@@ -41,10 +41,6 @@
   .panel-body { padding: 16px; }
   .panel-body.collapsed { display: none; }
 
-  /* Config header actions */
-  .config-actions { display: flex; gap: 8px; align-items: center; }
-
-  /* Search list */
   #search-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 12px; }
   .search-item { background: var(--bg); border: 1px solid var(--border); border-radius: 4px; padding: 11px; }
   .search-item-row { display: flex; gap: 8px; align-items: center; margin-bottom: 7px; }
@@ -56,7 +52,6 @@
   .remove-btn { background: none; border: 1px solid var(--border); color: var(--muted); width: 22px; height: 22px; border-radius: 2px; cursor: pointer; font-size: 13px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
   .remove-btn:hover { border-color: var(--error); color: var(--error); }
 
-  /* Advanced/text editor */
   #advanced-editor { display: none; }
   #advanced-editor textarea {
     width: 100%; height: 220px; background: var(--bg); border: 1px solid var(--border);
@@ -66,7 +61,6 @@
   #advanced-editor textarea:focus { border-color: var(--accent); }
   .advanced-hint { font-family: 'IBM Plex Mono', monospace; font-size: 10px; color: var(--muted); margin-top: 6px; }
 
-  /* Buttons */
   .btn { font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 500; padding: 8px 16px; border-radius: 2px; cursor: pointer; border: none; transition: all 0.15s; letter-spacing: 0.5px; white-space: nowrap; }
   .btn-ghost { background: transparent; border: 1px solid var(--border); color: var(--muted); }
   .btn-ghost:hover { border-color: var(--accent); color: var(--accent); }
@@ -77,14 +71,12 @@
   .btn-save:hover { background: var(--success); color: #000; }
   .btn-sm { font-size: 10px; padding: 4px 10px; }
 
-  /* Right panel */
   .right-tabs { display: flex; border-bottom: 1px solid var(--border); }
   .right-tab { font-family: 'IBM Plex Mono', monospace; font-size: 11px; padding: 9px 16px; background: none; border: none; border-bottom: 2px solid transparent; color: var(--muted); cursor: pointer; transition: all 0.15s; }
   .right-tab.active { color: var(--accent); border-bottom-color: var(--accent); }
   .right-tab-content { display: none; }
   .right-tab-content.active { display: block; }
 
-  /* Spinner */
   .spinner-wrap { display: flex; flex-direction: column; align-items: center; gap: 18px; padding: 50px 20px; }
   .spinner { width: 34px; height: 34px; border: 2px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
@@ -93,7 +85,6 @@
   .step.active { opacity: 1; color: var(--accent); }
   .step.done { opacity: 0.6; color: var(--success); }
 
-  /* Results */
   .results-summary { display: flex; gap: 24px; padding: 12px 16px; border-bottom: 1px solid var(--border); font-family: 'IBM Plex Mono', monospace; }
   .stat { display: flex; flex-direction: column; gap: 3px; }
   .stat-val { font-size: 20px; font-weight: 600; color: var(--accent); }
@@ -135,29 +126,26 @@
     <span>Bangkok scraper dashboard</span>
   </div>
   <div class="header-actions">
-    <button class="btn btn-save" onclick="saveConfig()">Save Config</button>
+    <button class="btn btn-save" id="save-btn" onclick="saveConfig()">Save Config</button>
     <button class="btn btn-primary" id="run-btn" onclick="runScrape()">▶ Run Scrape</button>
   </div>
 </header>
 
 <div class="layout">
-  <!-- LEFT: Config -->
   <div>
     <div class="panel">
       <div class="panel-header" id="config-header" onclick="toggleConfig()">
         <span>Search Config <span id="search-count" style="color:var(--accent)"></span></span>
-        <div style="display:flex;gap:8px;align-items:center" onclick="e => e.stopPropagation()">
+        <div style="display:flex;gap:8px;align-items:center">
           <button class="btn btn-ghost btn-sm" onclick="event.stopPropagation(); toggleAdvanced()">{ } Advanced</button>
           <span class="chevron">▾</span>
         </div>
       </div>
       <div class="panel-body" id="config-body">
-        <!-- Visual editor -->
         <div id="visual-editor">
           <div id="search-list"></div>
-          <button class="btn btn-ghost" onclick="addSearch()" style="width:100%;margin-bottom:0">+ Add Search</button>
+          <button class="btn btn-ghost" onclick="addSearch()" style="width:100%">+ Add Search</button>
         </div>
-        <!-- Advanced text editor -->
         <div id="advanced-editor">
           <textarea id="advanced-textarea" spellcheck="false" placeholder="Loading..."></textarea>
           <div class="advanced-hint">One search per line: URL | Tab Name</div>
@@ -170,7 +158,6 @@
     </div>
   </div>
 
-  <!-- RIGHT: Output -->
   <div>
     <div class="panel">
       <div class="right-tabs">
@@ -203,10 +190,10 @@
       <div class="right-tab-content" id="tab-sheet">
         <div class="sheet-link-bar">
           <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">Live Google Sheet</span>
-          <a href="https://docs.google.com/spreadsheets/d/1VmtCgFOoEbolmtOitjU3h4kRTavXQlvOMpzIWLpfGqQ" target="_blank">↗ Open in Google Sheets</a>
+          <a id="sheet-link" href="#" target="_blank">↗ Open in Google Sheets</a>
         </div>
         <div class="sheet-iframe-wrap">
-          <iframe src="https://docs.google.com/spreadsheets/d/1VmtCgFOoEbolmtOitjU3h4kRTavXQlvOMpzIWLpfGqQ/edit?usp=sharing&rm=minimal" allowfullscreen></iframe>
+          <iframe id="sheet-iframe" src="about:blank" allowfullscreen></iframe>
         </div>
       </div>
     </div>
@@ -214,10 +201,62 @@
 </div>
 
 <script>
+// ── Config injected by server ─────────────────────────────────────────────
+// SHEET_ID is replaced at runtime via /api/client-config; API_KEY is stored
+// in sessionStorage so the user only has to enter it once per session.
+
 let config = { searches: [] };
 let configCollapsed = false;
 let advancedMode = false;
+let API_KEY = sessionStorage.getItem('fb_api_key') || '';
 
+// ── Bootstrap ─────────────────────────────────────────────────────────────
+async function init() {
+  // Load client config (sheet ID etc.) from server
+  try {
+    const cc = await apiFetch('/api/client-config');
+    if (cc.sheetId) setSheetId(cc.sheetId);
+    if (cc.requiresAuth && !API_KEY) promptApiKey();
+  } catch (e) { /* non-fatal */ }
+
+  // Load search config
+  try {
+    const data = await apiFetch('/api/config');
+    if (data.searches) config = data;
+    renderSearchList();
+  } catch (e) {
+    console.error('Failed to load config:', e);
+  }
+}
+
+function setSheetId(id) {
+  const base = `https://docs.google.com/spreadsheets/d/${id}`;
+  document.getElementById('sheet-link').href = base;
+  document.getElementById('sheet-iframe').src = `${base}/edit?usp=sharing&rm=minimal`;
+}
+
+function promptApiKey() {
+  const key = prompt('Enter API key to access the scraper:');
+  if (key) { API_KEY = key; sessionStorage.setItem('fb_api_key', key); }
+}
+
+// ── Fetch wrapper — injects X-Api-Key header ──────────────────────────────
+async function apiFetch(url, options = {}) {
+  const headers = { 'Content-Type': 'application/json', ...options.headers };
+  if (API_KEY) headers['X-Api-Key'] = API_KEY;
+  const res = await fetch(url, { ...options, headers });
+  if (res.status === 401) {
+    promptApiKey();
+    throw new Error('Unauthorized — please retry');
+  }
+  if (!res.ok) {
+    const body = await res.text();
+    throw new Error(`${res.status}: ${body.substring(0, 200)}`);
+  }
+  return res.json();
+}
+
+// ── UI helpers ────────────────────────────────────────────────────────────
 function switchRightTab(name, btn) {
   document.querySelectorAll('.right-tab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.right-tab-content').forEach(c => c.classList.remove('active'));
@@ -236,9 +275,8 @@ function toggleAdvanced() {
   document.getElementById('visual-editor').style.display = advancedMode ? 'none' : 'block';
   document.getElementById('advanced-editor').style.display = advancedMode ? 'block' : 'none';
   if (advancedMode) {
-    // Populate textarea
-    const lines = config.searches.map(s => `${s.url} | ${s.tag}`).join('\n');
-    document.getElementById('advanced-textarea').value = lines;
+    document.getElementById('advanced-textarea').value =
+      config.searches.map(s => `${s.url} | ${s.tag}`).join('\n');
   }
 }
 
@@ -253,61 +291,71 @@ function applyAdvanced() {
       if (url && tag) searches.push({ url, tag });
     }
   }
-  if (searches.length === 0) { alert('No valid searches found. Format: URL | Tab Name'); return; }
+  if (!searches.length) { alert('No valid searches found. Format: URL | Tab Name'); return; }
   config.searches = searches;
   toggleAdvanced();
   renderSearchList();
 }
 
-async function init() {
-  try {
-    const res = await fetch('/api/config');
-    const data = await res.json();
-    if (data.searches) config = data;
-    renderSearchList();
-  } catch (e) {
-    console.error('Failed to load config:', e);
-  }
-}
-
+// ── Search list — DOM-based (no innerHTML with user data) ─────────────────
 function renderSearchList() {
   const list = document.getElementById('search-list');
   list.innerHTML = '';
   document.getElementById('search-count').textContent = `(${config.searches.length})`;
+
   config.searches.forEach((s, i) => {
-    const div = document.createElement('div');
-    div.className = 'search-item';
-    div.innerHTML = `
-      <div class="search-item-row">
-        <input class="tag-input" placeholder="Tab name" value="${esc(s.tag)}" oninput="updateSearch(${i},'tag',this.value)" />
-        <button class="remove-btn" onclick="removeSearch(${i})">×</button>
-      </div>
-      <div class="search-item-row">
-        <input class="url-input" placeholder="Facebook Marketplace URL" value="${esc(s.url)}" oninput="updateSearch(${i},'url',this.value)" />
-      </div>`;
-    list.appendChild(div);
+    const item = document.createElement('div');
+    item.className = 'search-item';
+
+    // Row 1: tag + remove button
+    const row1 = document.createElement('div');
+    row1.className = 'search-item-row';
+    const tagInput = document.createElement('input');
+    tagInput.className = 'tag-input';
+    tagInput.placeholder = 'Tab name';
+    tagInput.value = s.tag;
+    tagInput.addEventListener('input', e => { config.searches[i].tag = e.target.value; });
+    const removeBtn = document.createElement('button');
+    removeBtn.className = 'remove-btn';
+    removeBtn.textContent = '×';
+    removeBtn.addEventListener('click', () => removeSearch(i));
+    row1.append(tagInput, removeBtn);
+
+    // Row 2: URL
+    const row2 = document.createElement('div');
+    row2.className = 'search-item-row';
+    const urlInput = document.createElement('input');
+    urlInput.className = 'url-input';
+    urlInput.placeholder = 'Facebook Marketplace URL';
+    urlInput.value = s.url;
+    urlInput.addEventListener('input', e => { config.searches[i].url = e.target.value; });
+    row2.appendChild(urlInput);
+
+    item.append(row1, row2);
+    list.appendChild(item);
   });
 }
 
-function esc(s) { return (s||'').replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
-function addSearch() { config.searches.push({ url: '', tag: 'New Search' }); renderSearchList(); }
-function removeSearch(i) { config.searches.splice(i, 1); renderSearchList(); }
-function updateSearch(i, f, v) { config.searches[i][f] = v; }
+function addSearch()        { config.searches.push({ url: '', tag: 'New Search' }); renderSearchList(); }
+function removeSearch(i)    { config.searches.splice(i, 1); renderSearchList(); }
 
 async function saveConfig() {
-  const btn = document.querySelector('.btn-save');
+  const btn = document.getElementById('save-btn');
   btn.textContent = 'Saving...';
   try {
-    await fetch('/api/config', {
+    await apiFetch('/api/config', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ searches: config.searches })
+      body: JSON.stringify({ searches: config.searches }),
     });
     btn.textContent = 'Saved ✓';
-  } catch { btn.textContent = 'Error'; }
-  setTimeout(() => btn.textContent = 'Save Config', 2000);
+  } catch (e) {
+    btn.textContent = 'Error';
+    console.error(e);
+  }
+  setTimeout(() => { btn.textContent = 'Save Config'; }, 2000);
 }
 
+// ── Scrape ────────────────────────────────────────────────────────────────
 function animateSteps() {
   const delays = [0, 20000, 60000, 100000];
   ['step-1','step-2','step-3','step-4'].forEach((id, i) => {
@@ -320,36 +368,43 @@ function animateSteps() {
 
 async function runScrape() {
   await saveConfig();
-  document.getElementById('run-btn').disabled = true;
+  const runBtn = document.getElementById('run-btn');
+  runBtn.disabled = true;
   document.getElementById('empty-state').style.display = 'none';
   document.getElementById('results-wrap').style.display = 'none';
   document.getElementById('spinner-wrap').style.display = 'block';
-  ['step-1','step-2','step-3','step-4'].forEach((id,i) => {
+  ['step-1','step-2','step-3','step-4'].forEach((id, i) => {
     document.getElementById(id).className = i === 0 ? 'step active' : 'step';
   });
   animateSteps();
   const start = Date.now();
   try {
-    const res = await fetch('/api/run', { method: 'POST' });
-    const data = await res.json();
+    const data = await apiFetch('/api/run', { method: 'POST' });
     const elapsed = Math.round((Date.now() - start) / 1000);
     document.getElementById('spinner-wrap').style.display = 'none';
-    if (data.ok) renderResults(data.result, elapsed);
-    else showError(data.error || 'Unknown error');
+    renderResults(data.result, elapsed);
   } catch (err) {
     document.getElementById('spinner-wrap').style.display = 'none';
     showError(err.message);
   }
-  document.getElementById('run-btn').disabled = false;
+  runBtn.disabled = false;
 }
 
 function showError(msg) {
-  document.getElementById('results-wrap').style.display = 'block';
-  document.getElementById('results-wrap').innerHTML = `<div class="error-msg">Error: ${msg}</div>`;
+  const wrap = document.getElementById('results-wrap');
+  wrap.style.display = 'block';
+  wrap.innerHTML = '';
+  const div = document.createElement('div');
+  div.className = 'error-msg';
+  div.textContent = `Error: ${msg}`;
+  wrap.appendChild(div);
 }
 
+// ── Results rendering — DOM-based ─────────────────────────────────────────
 function renderResults(result, elapsed) {
-  document.getElementById('results-wrap').style.display = 'block';
+  const wrap = document.getElementById('results-wrap');
+  wrap.style.display = 'block';
+
   const tabs = {};
   let totalNew = 0, totalUpdated = 0, totalSold = 0;
   (Array.isArray(result) ? result : [result]).forEach(item => {
@@ -362,49 +417,127 @@ function renderResults(result, elapsed) {
     else if (item._op === 'sold') totalSold++;
   });
 
-  document.getElementById('results-summary').innerHTML = `
-    <div class="stat"><div class="stat-val">${totalNew}</div><div class="stat-lbl">New</div></div>
-    <div class="stat"><div class="stat-val updated">${totalUpdated}</div><div class="stat-lbl">Updated</div></div>
-    <div class="stat"><div class="stat-val sold">${totalSold}</div><div class="stat-lbl">Sold</div></div>
-    <div class="stat"><div class="stat-val" style="color:var(--muted)">${elapsed}s</div><div class="stat-lbl">Duration</div></div>`;
+  // Summary bar
+  const summary = document.getElementById('results-summary');
+  summary.innerHTML = '';
+  [
+    { val: totalNew,     cls: '',        lbl: 'New'      },
+    { val: totalUpdated, cls: 'updated', lbl: 'Updated'  },
+    { val: totalSold,    cls: 'sold',    lbl: 'Sold'     },
+    { val: `${elapsed}s`, cls: '', lbl: 'Duration', muted: true },
+  ].forEach(({ val, cls, lbl, muted }) => {
+    const stat = document.createElement('div');
+    stat.className = 'stat';
+    const v = document.createElement('div');
+    v.className = `stat-val${cls ? ' ' + cls : ''}`;
+    if (muted) v.style.color = 'var(--muted)';
+    v.textContent = val;
+    const l = document.createElement('div');
+    l.className = 'stat-lbl';
+    l.textContent = lbl;
+    stat.append(v, l);
+    summary.appendChild(stat);
+  });
+
+  const tabBar      = document.getElementById('tab-bar');
+  const tabContents = document.getElementById('tab-contents');
+  tabBar.innerHTML = '';
+  tabContents.innerHTML = '';
 
   const tabNames = Object.keys(tabs);
-  const tabBar = document.getElementById('tab-bar');
-  const tabContents = document.getElementById('tab-contents');
-  tabBar.innerHTML = ''; tabContents.innerHTML = '';
-
   if (!tabNames.length) {
-    tabContents.innerHTML = '<div class="empty-state">No changes this run — all listings up to date.</div>';
+    const empty = document.createElement('div');
+    empty.className = 'empty-state';
+    empty.textContent = 'No changes this run — all listings up to date.';
+    tabContents.appendChild(empty);
     return;
   }
 
   tabNames.forEach((name, i) => {
+    // Tab button
     const btn = document.createElement('button');
     btn.className = 'tab-btn' + (i === 0 ? ' active' : '');
     btn.textContent = `${name} (${tabs[name].length})`;
-    btn.onclick = () => {
+    btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
       btn.classList.add('active');
-      document.getElementById('tc-' + i).classList.add('active');
-    };
+      document.getElementById(`tc-${i}`).classList.add('active');
+    });
     tabBar.appendChild(btn);
 
+    // Tab content — table built via DOM
     const content = document.createElement('div');
     content.className = 'tab-content' + (i === 0 ? ' active' : '');
-    content.id = 'tc-' + i;
-    content.innerHTML = `<div class="table-wrap"><table class="results-table">
-      <thead><tr><th>Status</th><th>Title</th><th>Price</th><th>Change</th><th>Link</th></tr></thead>
-      <tbody>${tabs[name].map(r => {
-        const op = r._op || 'append';
-        const cls = op === 'sold' ? 'sold' : op === 'update' ? 'updated' : 'new';
-        const badge = op === 'sold' ? '<span class="badge badge-sold">SOLD</span>' : op === 'update' ? '<span class="badge badge-updated">UPDATED</span>' : '<span class="badge badge-new">NEW</span>';
-        const title = esc((r.title || r.listing_id || '').substring(0, 55));
-        const price = r.price ? `${r.currency||''}${r.price}` : '—';
-        const change = r.price_change ? `<span style="color:${r.price_change.startsWith('+') ? 'var(--error)' : 'var(--success)'};font-family:'IBM Plex Mono',monospace;font-size:11px">${esc(r.price_change)}</span>` : '—';
-        const link = r.link ? `<a href="${r.link}" target="_blank">↗</a>` : '—';
-        return `<tr class="${cls}"><td>${badge}</td><td title="${esc(r.title||'')}">${title}</td><td style="font-family:'IBM Plex Mono',monospace">${price}</td><td>${change}</td><td>${link}</td></tr>`;
-      }).join('')}</tbody></table></div>`;
+    content.id = `tc-${i}`;
+
+    const tableWrap = document.createElement('div');
+    tableWrap.className = 'table-wrap';
+    const table = document.createElement('table');
+    table.className = 'results-table';
+
+    // Header
+    const thead = table.createTHead();
+    const hrow = thead.insertRow();
+    ['Status','Title','Price','Change','Link'].forEach(h => {
+      const th = document.createElement('th');
+      th.textContent = h;
+      hrow.appendChild(th);
+    });
+
+    // Rows
+    const tbody = table.createTBody();
+    tabs[name].forEach(r => {
+      const op  = r._op || 'append';
+      const cls = op === 'sold' ? 'sold' : op === 'update' ? 'updated' : 'new';
+      const row = tbody.insertRow();
+      row.className = cls;
+
+      // Badge cell
+      const badgeCell = row.insertCell();
+      const badge = document.createElement('span');
+      badge.className = `badge badge-${op === 'update' ? 'updated' : op === 'sold' ? 'sold' : 'new'}`;
+      badge.textContent = op === 'sold' ? 'SOLD' : op === 'update' ? 'UPDATED' : 'NEW';
+      badgeCell.appendChild(badge);
+
+      // Title cell
+      const titleCell = row.insertCell();
+      const titleText = (r.title || r.listing_id || '').substring(0, 55);
+      titleCell.textContent = titleText;
+      titleCell.title = r.title || '';
+
+      // Price cell
+      const priceCell = row.insertCell();
+      priceCell.style.fontFamily = "'IBM Plex Mono', monospace";
+      priceCell.textContent = r.price ? `${r.currency || ''}${r.price}` : '—';
+
+      // Change cell
+      const changeCell = row.insertCell();
+      if (r.price_change) {
+        const span = document.createElement('span');
+        span.style.cssText = `color:${r.price_change.startsWith('+') ? 'var(--error)' : 'var(--success)'};font-family:'IBM Plex Mono',monospace;font-size:11px`;
+        span.textContent = r.price_change;
+        changeCell.appendChild(span);
+      } else {
+        changeCell.textContent = '—';
+      }
+
+      // Link cell
+      const linkCell = row.insertCell();
+      if (r.link) {
+        const a = document.createElement('a');
+        a.href = r.link;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.textContent = '↗';
+        linkCell.appendChild(a);
+      } else {
+        linkCell.textContent = '—';
+      }
+    });
+
+    tableWrap.appendChild(table);
+    content.appendChild(tableWrap);
     tabContents.appendChild(content);
   });
 }
